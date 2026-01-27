@@ -5,7 +5,7 @@
  * Cette function retourne les KPI agrégés pour l'interface admin
  */
 
-import { neon } from '@netlify/neon';
+import { neon } from '@neondatabase/serverless';
 
 export default async (request, context) => {
   // Accepter uniquement les requêtes GET

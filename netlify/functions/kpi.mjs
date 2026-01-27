@@ -6,7 +6,7 @@
  * Tables : kpi_sessions, kpi_events
  */
 
-import { neon } from '@netlify/neon';
+import { neon } from '@neondatabase/serverless';
 
 export default async (request, context) => {
   // Accepter uniquement les requêtes POST
