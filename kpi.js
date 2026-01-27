@@ -164,7 +164,7 @@
     
     // Afficher une fausse alerte système après 500ms
     setTimeout(function() {
-      alert('⚠️ ALERTE SÉCURITÉ ⚠️\n\nVotre système a détecté une tentative de phishing.\n\nVos identifiants auraient pu être volés !');
+      alert('⚠️ ALERTE SÉCURITÉ ⚠️\n\nVotre système a été compromis !\nVos identifiants viennent d\'être volés...\n\n━━━━━━━━━━━━━━━━━━━━━━━━\n\n😊 HEUREUSEMENT, c\'est un exercice !\n\nCette page fait partie d\'une campagne de sensibilisation à la cybersécurité organisée par l\'Université de Corse.\n\nAucune donnée n\'a été collectée. Mais dans la vraie vie, vos identifiants auraient pu être volés !');
       
       // Après l'alerte, masquer l'écran de hack et afficher la vraie modale
       setTimeout(function() {
