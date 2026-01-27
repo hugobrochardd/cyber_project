@@ -145,32 +145,23 @@
 
     // === PAGE ENT (faux ENT) ===
     if (body.classList.contains('auth-body')) {
-      const usernameInput = document.getElementById('username');
-      const form = document.querySelector('.auth-form');
-      let typingTracked = false;
-      let typedCount = 0;
+      var usernameInput = document.getElementById('username');
+      var form = document.querySelector('.auth-form');
+      var typingTracked = false;
 
       // Cacher la modale au demarrage
       hideCyberModal();
 
       // KPI 3 - Debut de saisie (>=3 caracteres) dans le champ identifiant
+      // Utiliser 'input' au lieu de 'keydown' pour compatibilite Android
       if (usernameInput) {
-        usernameInput.addEventListener('keydown', function (e) {
-          // On ne compte que les vraies touches de saisie
-          const isChar =
-            e.key.length === 1 &&
-            !e.ctrlKey &&
-            !e.metaKey &&
-            !e.altKey;
-
-          if (!isChar || typingTracked) {
+        usernameInput.addEventListener('input', function (e) {
+          if (typingTracked) {
             return;
           }
 
-          typedCount++;
-
-          // Declencher au 3e caractere tape
-          if (typedCount >= 3) {
+          // Declencher quand au moins 3 caracteres sont saisis
+          if (usernameInput.value.length >= 3) {
             typingTracked = true;
             sendKpi('start_typing');
 
