@@ -1,0 +1,16 @@
+{
+  "name": "cyber-project-netlify",
+  "version": "1.0.0",
+  "description": "Projet de sensibilisation cybersécurité - Université de Corse",
+  "type": "module",
+  "scripts": {
+    "dev": "netlify dev",
+    "build": "echo 'Static site - no build step needed'"
+  },
+  "dependencies": {
+    "@netlify/neon": "^0.10.1"
+  },
+  "devDependencies": {
+    "netlify-cli": "^17.0.0"
+  }
+}

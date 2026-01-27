@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Authentification | Campus numérique</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+  <script src="kpi.js" defer></script>
+</head>
+<body class="auth-body">
+
+  <header class="uc-header">
+    <div class="uc-header-top">
+      <div class="uc-logo-text">
+        <span class="uc-logo-line1">UNIVERSITÀ DI CORSICA</span>
+        <span>      |      </span>
+        <span class="uc-logo-line2">Nos Portails :</span>
+      </div>
+      <nav class="uc-nav">
+        <a href="#">Étudiants</a>
+        <a href="#">Personnels</a>
+        <a href="#">Recherche</a>
+        <a href="#">Partenaires pro</a>
+        <a href="#">Fondation</a>
+      </nav>
+    </div>
+    <div class="uc-header-bottom">
+      <img src="logo.png" alt="">
+    </div>
+  </header>
+
+  <main class="auth-main">
+    <h1 class="auth-title">
+      Authentification |
+      <span class="auth-subtitle">Campus numérique</span>
+    </h1>
+
+    <section class="auth-panel">
+
+      <div class="auth-panel-block auth-panel-block--top">
+        <p class="auth-panel-title">
+          &gt; Vous êtes étudiant, personnel, vacataire ou ALUMNI de l'Università di Corsica
+        </p>
+
+        <form class="auth-form">
+
+          <div class="field">
+            <input
+              type="text"
+              id="username"
+              name="username"
+              class="field-input"
+              placeholder=" "
+              required
+              autocomplete="off"
+            >
+            <label for="username" class="field-label">
+              Identifiant : *
+            </label>
+          </div>
+
+          <div class="field field--with-eye">
+            <input
+              type="password"
+              id="password"
+              name="password"
+              class="field-input"
+              placeholder=" "
+              required
+              autocomplete="off"
+            >
+            <label for="password" class="field-label">
+              Mot de passe : *
+            </label>
+
+            <!-- bouton œil à droite -->
+            <button type="button" class="field-eye" aria-label="Afficher le mot de passe">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>eye</title><path d="M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5Z" /></svg>
+            </button>
+          </div>
+
+          <button type="submit" class="auth-button">
+            SE CONNECTER
+          </button>
+        </form>
+
+        <div class="auth-links">
+          <a href="#">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>account-question</title><path d="M13,8A4,4 0 0,1 9,12A4,4 0 0,1 5,8A4,4 0 0,1 9,4A4,4 0 0,1 13,8M17,18V20H1V18C1,15.79 4.58,14 9,14C13.42,14 17,15.79 17,18M20.5,14.5V16H19V14.5H20.5M18.5,9.5H17V9A3,3 0 0,1 20,6A3,3 0 0,1 23,9C23,9.97 22.5,10.88 21.71,11.41L21.41,11.6C20.84,12 20.5,12.61 20.5,13.3V13.5H19V13.3C19,12.11 19.6,11 20.59,10.35L20.88,10.16C21.27,9.9 21.5,9.47 21.5,9A1.5,1.5 0 0,0 20,7.5A1.5,1.5 0 0,0 18.5,9V9.5Z" /></svg>
+          </a>
+          <a href="#">Mot de passe oublié ?</a>
+          <a href="#">Besoin d’aide ?</a>
+        </div>
+
+        <p class="auth-security-note">
+          Pour des raisons de sécurité, veuillez vous <span style="text-decoration: underline; color: #004e82;">déconnecter</span> et fermer votre navigateur
+          lorsque vous avez fini d’accéder aux services authentifiés.
+        </p>
+      </div>
+
+      <div class="auth-panel-block">
+        <p class="auth-panel-title">
+          &gt; Vous êtes nouvel arrivant à l'Università di Corsica, pour activer votre compte
+        </p>
+        <button class="auth-secondary-button">CLIQUEZ ICI</button>
+      </div>
+
+      <div class="auth-panel-block">
+        <p class="auth-panel-title">
+          &gt; Vous êtes extérieur, pour vous connecter
+        </p>
+        <button class="auth-secondary-button">CLIQUEZ ICI</button>
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="auth-footer">
+    © Université – Tous droits réservés
+  </footer>
+
+  <!-- Fenêtre de rassurance cybersécurité -->
+  <div id="cyber-backdrop" class="cyber-backdrop" hidden></div>
+  <div id="cyber-modal" class="cyber-modal" hidden role="dialog" aria-modal="true" aria-labelledby="cyber-modal-title">
+    <div class="cyber-modal-inner">
+      <h2 id="cyber-modal-title">Exercice de sensibilisation à la cybersécurité</h2>
+      <p>
+        Vous venez de commencer à saisir vos identifiants. Cette page fait partie d’un exercice de
+        sensibilisation organisé par l’Université de Corse : aucune donnée de connexion n’est enregistrée
+        et votre compte n’est à aucun moment exposé.
+      </p>
+      <p>
+        Dans la vie réelle, ne saisissez jamais vos identifiants ENT après un QR code ou un lien dont vous
+        n’êtes pas absolument sûr de la provenance.
+      </p>
+      <h3>Pour aller plus loin</h3>
+      <ul class="cyber-links">
+        <li><a class="cyber-link" href="https://www.cybermalveillance.gouv.fr/tous-nos-contenus/bonnes-pratiques" target="_blank" rel="noopener noreferrer">Bonnes pratiques de cybersécurité (Cybermalveillance.gouv.fr)</a></li>
+        <li><a class="cyber-link" href="https://www.ssi.gouv.fr/particulier/bonnes-pratiques/" target="_blank" rel="noopener noreferrer">Les bons réflexes selon l’ANSSI</a></li>
+        <li><a class="cyber-link" href="https://secnumacademie.gouv.fr/" target="_blank" rel="noopener noreferrer">MOOC SecNumacadémie (ANSSI)</a></li>
+      </ul>
+      <button id="cyber-modal-close" class="cyber-modal-close">J’ai compris</button>
+    </div>
+  </div>
+
+</body>
+</html>
