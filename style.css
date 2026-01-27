@@ -411,3 +411,125 @@ body.auth-body {
 .cyber-modal-close:hover {
   filter: brightness(1.05);
 }
+
+/* === Écran de piratage effrayant === */
+
+#hack-screen {
+  position: fixed;
+  inset: 0;
+  background: #000000;
+  z-index: 99999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#hack-screen.active {
+  display: flex;
+  animation: hackFlicker 0.15s infinite;
+}
+
+.hack-content {
+  text-align: center;
+  color: #ff0000;
+}
+
+.hack-icon {
+  font-size: 5rem;
+  margin-bottom: 1rem;
+  animation: hackPulse 0.5s infinite;
+}
+
+.hack-glitch {
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  position: relative;
+  animation: hackGlitch 0.3s infinite;
+}
+
+.hack-glitch::before,
+.hack-glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.hack-glitch::before {
+  color: #00ffff;
+  animation: hackGlitchBefore 0.3s infinite;
+  clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+}
+
+.hack-glitch::after {
+  color: #ff00ff;
+  animation: hackGlitchAfter 0.3s infinite;
+  clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+}
+
+.hack-text {
+  font-size: 1.2rem;
+  margin-top: 1.5rem;
+  color: #00ff00;
+  font-family: monospace;
+  animation: hackBlink 0.8s infinite;
+}
+
+.hack-loader {
+  width: 50px;
+  height: 50px;
+  margin: 2rem auto 0;
+  border: 4px solid #333;
+  border-top: 4px solid #ff0000;
+  border-radius: 50%;
+  animation: hackSpin 0.5s linear infinite;
+}
+
+@keyframes hackFlicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.95; }
+}
+
+@keyframes hackPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+@keyframes hackGlitch {
+  0%, 100% { transform: translate(0); }
+  20% { transform: translate(-3px, 3px); }
+  40% { transform: translate(3px, -3px); }
+  60% { transform: translate(-3px, -3px); }
+  80% { transform: translate(3px, 3px); }
+}
+
+@keyframes hackGlitchBefore {
+  0%, 100% { transform: translate(0); }
+  20% { transform: translate(2px, 0); }
+  40% { transform: translate(-2px, 0); }
+  60% { transform: translate(2px, 0); }
+  80% { transform: translate(-2px, 0); }
+}
+
+@keyframes hackGlitchAfter {
+  0%, 100% { transform: translate(0); }
+  20% { transform: translate(-2px, 0); }
+  40% { transform: translate(2px, 0); }
+  60% { transform: translate(-2px, 0); }
+  80% { transform: translate(2px, 0); }
+}
+
+@keyframes hackBlink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0.7; }
+}
+
+@keyframes hackSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

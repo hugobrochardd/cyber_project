@@ -8,7 +8,38 @@
 import { neon } from '@neondatabase/serverless';
 
 export default async (request, context) => {
-  // Accepter uniquement les requêtes GET
+  // Initialiser la connexion Neon
+  const sql = neon(process.env.NETLIFY_DATABASE_URL);
+  const url = new URL(request.url);
+  const action = url.searchParams.get('action');
+
+  // ─────────────────────────────────────────────────────────────
+  // DELETE - Réinitialiser toutes les données
+  // ─────────────────────────────────────────────────────────────
+  if (request.method === 'DELETE' && action === 'reset') {
+    try {
+      // Supprimer tous les événements et sessions
+      await sql`TRUNCATE TABLE kpi_events CASCADE`;
+      await sql`TRUNCATE TABLE kpi_sessions CASCADE`;
+
+      console.log('[KPI Stats] Toutes les données ont été supprimées');
+
+      return new Response(
+        JSON.stringify({ success: true, message: 'Toutes les données ont été supprimées' }),
+        { status: 200, headers: { 'Content-Type': 'application/json' } }
+      );
+    } catch (error) {
+      console.error('[KPI Stats] Erreur lors de la suppression:', error);
+      return new Response(
+        JSON.stringify({ error: 'Erreur lors de la suppression', details: error.message }),
+        { status: 500, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+  }
+
+  // ─────────────────────────────────────────────────────────────
+  // GET - Récupérer les statistiques
+  // ─────────────────────────────────────────────────────────────
   if (request.method !== 'GET') {
     return new Response(
       JSON.stringify({ error: 'Method not allowed' }),
@@ -17,8 +48,6 @@ export default async (request, context) => {
   }
 
   try {
-    // Initialiser la connexion Neon
-    const sql = neon(process.env.NETLIFY_DATABASE_URL);
 
     // 1. Total d'événements par type
     const eventsByType = await sql`

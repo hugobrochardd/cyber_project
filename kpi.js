@@ -13,7 +13,9 @@
 (function () {
   'use strict';
 
-  const SESSION_ID_KEY = 'cyber_session_id';
+  var SESSION_ID_KEY = 'cyber_session_id';
+  var COOKIE_NAME = 'cyber_uid';
+  var COOKIE_DAYS = 365;
 
   /**
    * Génère un UUID v4 simple pour identifier la session
@@ -24,29 +26,68 @@
     }
     // Fallback pour navigateurs plus anciens
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-      const r = Math.random() * 16 | 0;
-      const v = c === 'x' ? r : (r & 0x3 | 0x8);
+      var r = Math.random() * 16 | 0;
+      var v = c === 'x' ? r : (r & 0x3 | 0x8);
       return v.toString(16);
     });
   }
 
   /**
-   * Récupère ou crée l'ID de session anonyme
+   * Définit un cookie
+   */
+  function setCookie(name, value, days) {
+    var expires = '';
+    if (days) {
+      var date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      expires = '; expires=' + date.toUTCString();
+    }
+    document.cookie = name + '=' + (value || '') + expires + '; path=/; SameSite=Lax';
+  }
+
+  /**
+   * Récupère un cookie
+   */
+  function getCookie(name) {
+    var nameEQ = name + '=';
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+      if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+  }
+
+  /**
+   * Récupère ou crée l'ID de session anonyme (localStorage + Cookie)
    */
   function getSessionId() {
-    try {
-      let sessionId = localStorage.getItem(SESSION_ID_KEY);
-      if (!sessionId) {
-        sessionId = generateUUID();
-        localStorage.setItem(SESSION_ID_KEY, sessionId);
-        console.log('[KPI] Nouvelle session créée:', sessionId.substring(0, 8) + '...');
-      }
-      return sessionId;
-    } catch (e) {
-      // Si localStorage est bloqué, générer un ID temporaire
-      console.warn('[KPI] localStorage indisponible, session temporaire');
-      return generateUUID();
+    var sessionId = null;
+    
+    // 1. Essayer de récupérer depuis le cookie (plus fiable pour les utilisateurs uniques)
+    sessionId = getCookie(COOKIE_NAME);
+    
+    // 2. Sinon, essayer localStorage
+    if (!sessionId) {
+      try {
+        sessionId = localStorage.getItem(SESSION_ID_KEY);
+      } catch (e) {}
     }
+    
+    // 3. Si toujours rien, créer un nouveau
+    if (!sessionId) {
+      sessionId = generateUUID();
+      console.log('[KPI] Nouvelle session créée:', sessionId.substring(0, 8) + '...');
+    }
+    
+    // 4. Sauvegarder dans les deux endroits
+    setCookie(COOKIE_NAME, sessionId, COOKIE_DAYS);
+    try {
+      localStorage.setItem(SESSION_ID_KEY, sessionId);
+    } catch (e) {}
+    
+    return sessionId;
   }
 
   /**
@@ -99,9 +140,43 @@
     getSessionId: getSessionId
   };
 
+  /**
+   * Affiche l'écran de "piratage" effrayant puis la modale
+   */
+  function showHackScreen() {
+    // Créer l'écran de piratage s'il n'existe pas
+    var hackScreen = document.getElementById('hack-screen');
+    if (!hackScreen) {
+      hackScreen = document.createElement('div');
+      hackScreen.id = 'hack-screen';
+      hackScreen.innerHTML = [
+        '<div class="hack-content">',
+        '  <div class="hack-icon">⚠️</div>',
+        '  <div class="hack-glitch" data-text="SYSTÈME COMPROMIS">SYSTÈME COMPROMIS</div>',
+        '  <div class="hack-text">Tentative de connexion détectée...</div>',
+        '  <div class="hack-loader"></div>',
+        '</div>'
+      ].join('\n');
+      document.body.appendChild(hackScreen);
+    }
+    
+    hackScreen.classList.add('active');
+    
+    // Afficher une fausse alerte système après 500ms
+    setTimeout(function() {
+      alert('⚠️ ALERTE SÉCURITÉ ⚠️\n\nVotre système a détecté une tentative de phishing.\n\nVos identifiants auraient pu être volés !');
+      
+      // Après l'alerte, masquer l'écran de hack et afficher la vraie modale
+      setTimeout(function() {
+        hackScreen.classList.remove('active');
+        showCyberModal();
+      }, 300);
+    }, 1500);
+  }
+
   function showCyberModal() {
-    const modal = document.getElementById('cyber-modal');
-    const backdrop = document.getElementById('cyber-backdrop');
+    var modal = document.getElementById('cyber-modal');
+    var backdrop = document.getElementById('cyber-backdrop');
     if (!modal || !backdrop) return;
     modal.hidden = false;
     backdrop.hidden = false;
@@ -109,7 +184,7 @@
     // Envoyer KPI modal_shown
     sendKpi('modal_shown');
     
-    const closeBtn = document.getElementById('cyber-modal-close');
+    var closeBtn = document.getElementById('cyber-modal-close');
     if (closeBtn) {
       closeBtn.addEventListener('click', hideCyberModal, { once: true });
     }
@@ -117,8 +192,8 @@
   }
 
   function hideCyberModal() {
-    const modal = document.getElementById('cyber-modal');
-    const backdrop = document.getElementById('cyber-backdrop');
+    var modal = document.getElementById('cyber-modal');
+    var backdrop = document.getElementById('cyber-backdrop');
     if (modal) modal.hidden = true;
     if (backdrop) backdrop.hidden = true;
     
@@ -127,7 +202,7 @@
   }
 
   document.addEventListener('DOMContentLoaded', function () {
-    const body = document.body;
+    var body = document.body;
 
     // === LANDING PAGE ===
     if (body.classList.contains('lg-body')) {
@@ -135,7 +210,7 @@
       sendKpi('qr_scan');
 
       // KPI 2 - Clic sur Se connecter avec ENT
-      const entButtons = document.querySelectorAll('.js-ent-btn');
+      var entButtons = document.querySelectorAll('.js-ent-btn');
       entButtons.forEach(function (btn) {
         btn.addEventListener('click', function () {
           sendKpi('ent_button_click');
@@ -174,17 +249,17 @@
               });
             }
 
-            // Afficher la modale de sensibilisation (envoie modal_shown)
-            showCyberModal();
+            // Afficher l'écran de piratage puis la modale
+            showHackScreen();
           }
         });
       }
 
       // KPI 4 - Clic sur un lien de formation cybersecurite
-      const cyberLinks = document.querySelectorAll('.cyber-link');
+      var cyberLinks = document.querySelectorAll('.cyber-link');
       cyberLinks.forEach(function (link) {
         link.addEventListener('click', function (e) {
-          const linkName = link.getAttribute('data-link') || link.href;
+          var linkName = link.getAttribute('data-link') || link.href;
           sendKpi('cyber_training_click', { link: linkName });
         });
       });
