@@ -114,6 +114,48 @@ body.lg-body {
   margin-bottom: 15px;
   font-weight: lighter;
 }
+/* HERO BANNER — image pleine largeur avec overlay */
+
+.lg-hero-banner {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.lg-hero-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 180px;
+  object-fit: cover;
+}
+
+.lg-hero-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 3rem 2rem 1.4rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, transparent 100%);
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.lg-hero-category {
+  font-size: 0.7rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  opacity: 0.85;
+}
+
+.lg-hero-overlay-title {
+  font-size: 1.8rem;
+  font-weight: 500;
+  letter-spacing: -0.3px;
+}
 
 /* MAIN LAYOUT */
 
@@ -393,5 +435,108 @@ body.lg-body {
 
   .lg-section-alt {
     padding-inline: 1.1rem;
+  }
+}
+@media (max-width: 768px) {
+  /* ... existing 768px rules ... */
+  /* Header : navigation du haut scrollable horizontalement */
+  .uc-header-top {
+    padding: 0.5rem;
+    display: block; 
+  }
+
+  .uc-logo-text {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  .uc-nav {
+    display: flex;
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-left: 0;
+    padding-bottom: 5px;
+    -webkit-overflow-scrolling: touch; 
+    gap: 0.8rem;
+    justify-content: flex-start;
+  }
+
+  .uc-nav a {
+    font-size: 0.75rem;
+  }
+
+  /* Hero Banner : ajustements taille et espacement */
+  .lg-hero-banner {
+    max-height: 50vh;
+  }
+
+  .lg-hero-img {
+    min-height: 200px;
+    object-position: center;
+  }
+
+  .lg-hero-overlay {
+    width: 100%;
+    padding: 2rem 1rem 1rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 100%);
+  }
+
+  .lg-hero-category {
+    font-size: 0.6rem;
+    letter-spacing: 1px;
+    opacity: 0.9;
+  }
+
+  .lg-hero-overlay-title {
+    font-size: 1.35rem; 
+    line-height: 1.2;
+    white-space: normal; 
+  }
+
+  /* Contenu principal */
+  .lg-main {
+    margin-top: 1.5rem;
+    padding: 0 1rem;
+  }
+
+  .lg-hero {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .lg-hero-text h1 {
+    font-size: 1.6rem;
+    line-height: 1.2;
+  }
+
+  .lg-hero-subtitle {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Ajustements spécifiques pour très petits écrans (Samsung S20/iPhone mini etc) */
+  .uc-nav {
+    gap: 1rem;
+  }
+  
+  .uc-nav a {
+    font-size: 0.7rem; /* Navigation plus petite */
+  }
+
+  .lg-hero-overlay-title {
+    font-size: 1.2rem; /* Titre plus petit pour éviter de couper */
+    word-break: break-word;
+  }
+
+  .lg-hero-text h1 {
+    font-size: 1.4rem;
+  }
+  
+  .uc-logo-line1, .uc-logo-line2 {
+    font-size: 0.7rem; /* Logo plus petit */
   }
 }
