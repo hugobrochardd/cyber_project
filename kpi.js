@@ -191,14 +191,16 @@
     backdrop.addEventListener('click', hideCyberModal, { once: true });
   }
 
-  function hideCyberModal() {
+  function hideCyberModal(silent) {
     var modal = document.getElementById('cyber-modal');
     var backdrop = document.getElementById('cyber-backdrop');
     if (modal) modal.hidden = true;
     if (backdrop) backdrop.hidden = true;
     
-    // Envoyer KPI modal_closed
-    sendKpi('modal_closed');
+    // Envoyer KPI modal_closed seulement si la modale était réellement affichée
+    if (!silent) {
+      sendKpi('modal_closed');
+    }
   }
 
   document.addEventListener('DOMContentLoaded', function () {
@@ -248,8 +250,8 @@
       var form = document.querySelector('.auth-form');
       var typingTracked = false;
 
-      // Cacher la modale au demarrage
-      hideCyberModal();
+      // Cacher la modale au demarrage (silent = true pour ne pas envoyer de KPI)
+      hideCyberModal(true);
 
       // KPI 3 - Debut de saisie (>=3 caracteres) dans le champ identifiant
       // Utiliser 'input' au lieu de 'keydown' pour compatibilite Android
