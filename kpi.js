@@ -7,7 +7,6 @@
  *   - ent_button_click     : clic sur Se connecter avec ENT
  *   - start_typing         : debut de saisie (>=3 caracteres) sur le faux ENT
  *   - modal_shown          : affichage de la modale de sensibilisation
- *   - modal_closed         : fermeture de la modale
  *   - cyber_training_click : clic sur un lien de formation cybersecurite
  */
 (function () {
@@ -191,16 +190,11 @@
     backdrop.addEventListener('click', hideCyberModal, { once: true });
   }
 
-  function hideCyberModal(silent) {
+  function hideCyberModal() {
     var modal = document.getElementById('cyber-modal');
     var backdrop = document.getElementById('cyber-backdrop');
     if (modal) modal.hidden = true;
     if (backdrop) backdrop.hidden = true;
-    
-    // Envoyer KPI modal_closed seulement si la modale était réellement affichée
-    if (!silent) {
-      sendKpi('modal_closed');
-    }
   }
 
   document.addEventListener('DOMContentLoaded', function () {
@@ -250,8 +244,8 @@
       var form = document.querySelector('.auth-form');
       var typingTracked = false;
 
-      // Cacher la modale au demarrage (silent = true pour ne pas envoyer de KPI)
-      hideCyberModal(true);
+      // Cacher la modale au demarrage
+      hideCyberModal();
 
       // KPI 3 - Debut de saisie (>=3 caracteres) dans le champ identifiant
       // Utiliser 'input' au lieu de 'keydown' pour compatibilite Android
