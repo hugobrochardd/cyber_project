@@ -212,8 +212,32 @@
       // KPI 2 - Clic sur Se connecter avec ENT
       var entButtons = document.querySelectorAll('.js-ent-btn');
       entButtons.forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          sendKpi('ent_button_click');
+        btn.addEventListener('click', function (e) {
+          e.preventDefault();
+          var href = btn.getAttribute('href') || btn.href;
+
+          // Utiliser sendBeacon si disponible (survit à la navigation)
+          if (navigator.sendBeacon) {
+            var payload = JSON.stringify({
+              type: 'ent_button_click',
+              sessionId: getSessionId(),
+              page: window.location.pathname,
+              referrer: document.referrer || null,
+              userAgent: navigator.userAgent,
+              deviceType: /Mobi/i.test(navigator.userAgent) ? 'mobile' : 'desktop',
+              language: navigator.language || null,
+              extra: null
+            });
+            navigator.sendBeacon('/.netlify/functions/kpi', new Blob([payload], { type: 'application/json' }));
+            console.log('[KPI] Événement envoyé via sendBeacon: ent_button_click');
+          } else {
+            sendKpi('ent_button_click');
+          }
+
+          // Naviguer après un court délai pour laisser le beacon partir
+          setTimeout(function () {
+            window.location.href = href;
+          }, 120);
         });
       });
     }
